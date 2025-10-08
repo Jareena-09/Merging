@@ -1,0 +1,33 @@
+// Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any // Specifies that the pipeline can run on any available agent
+
+    options {
+        // Optional: Skip subsequent stages if a previous stage becomes unstable
+        skipStagesAfterUnstable() 
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                // Example build command (e.g., for a C/C++ project)
+                sh 'make' 
+            }
+        }
+
+        stage('Test') {
+            steps {
+                // Example test command and JUnit report publishing
+                sh 'make check' 
+                junit 'reports/**/*.xml' // Collects test results for reporting
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Example deployment command
+                sh 'make publish' 
+            }
+        }
+    }
+}
